@@ -129,3 +129,11 @@ make verify-package
 ## License
 
 MIT License — see [LICENSE](LICENSE).
+
+## Blender Addon
+
+To open `.helix` packages in Blender, install the [Helix Blender Tools](https://github.com/djmsqrvve/helix-blender-addon) addon:
+
+1. Download from [v0.3.0 release](https://github.com/djmsqrvve/helix-blender-addon/releases/tag/v0.3.0)
+2. Install in Blender via Edit > Preferences > Add-ons > Install from Disk
+3. File > Import > Helix Package (.helix)
