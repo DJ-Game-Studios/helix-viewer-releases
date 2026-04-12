@@ -1,0 +1,10 @@
+# Don't commit binaries to git — they go in GitHub Releases
+*.exe
+helix-viewer
+
+# Don't commit large package files — ship as release assets
+*.helix
+
+# OS
+.DS_Store
+Thumbs.db
