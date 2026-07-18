@@ -11,14 +11,16 @@ This is a **public releases repository** with restricted scope. It distributes p
 
 ## What does NOT belong here
 
-- Source code (lives in [helix_3d](https://github.com/djmsqrvve/helix_3d))
+- Source code (lives in
+  [helix-viewer-wgpu](https://github.com/DJ-Game-Studios/helix-viewer-wgpu))
 - Build scripts or CI pipelines that compile from source
 - The full 124-hero package library (too large — ship 2-3 samples per release)
 - Game data, engine internals, or private configuration
 
 ## Release Process
 
-1. Build the viewer binary in helix_3d: `cargo build --release -p helix-3d-viewer`
+1. Build the viewer binary in `helix-viewer-wgpu`:
+   `cargo build --release -p helix-viewer-wgpu --features egui`
 2. Copy binary to this repo or upload directly as a GitHub Release asset
 3. Include 2-3 sample `.helix` packages (build with `make package HERO=drow` in helix-tools)
 4. Tag with semver: `v0.1.0`, `v0.2.0`, etc.
@@ -54,6 +56,7 @@ EOF
 
 | Repo | What to do there |
 |------|-----------------|
-| helix_3d | Build the viewer binary, implement features |
+| helix-viewer-wgpu | Build the viewer binary, implement viewer features |
+| helix_3d | Flagship runtime and owner of the viewer's declared `helix-water` integration |
 | helix-tools | Build `.helix` packages, update format spec |
 | This repo | Distribute binaries + sample packages |

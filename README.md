@@ -57,13 +57,14 @@ See [HELIX_FORMAT_SPEC.md](HELIX_FORMAT_SPEC.md) for the full format specificati
 
 ## Building the Viewer from Source
 
-The viewer lives in the [helix_3d](https://github.com/djmsqrvve/helix_3d) repository:
+The viewer lives in the
+[helix-viewer-wgpu](https://github.com/DJ-Game-Studios/helix-viewer-wgpu) repository:
 
 ```bash
-cd helix_3d
-cargo build --release -p helix-3d-viewer
+cd helix-viewer-wgpu
+cargo build --release -p helix-viewer-wgpu --features egui
 
-# Binary at target/release/helix-3d-viewer
+# Binary at target/release/helix-viewer-wgpu
 ```
 
 ### Cross-compile for Windows (from Linux)
@@ -74,7 +75,8 @@ sudo apt-get install -y gcc-mingw-w64-x86-64
 rustup target add x86_64-pc-windows-gnu
 
 # Build
-cargo build --release -p helix-3d-viewer --target x86_64-pc-windows-gnu
+cargo build --release -p helix-viewer-wgpu --features egui \
+  --target x86_64-pc-windows-gnu
 ```
 
 ## Building .helix Packages
@@ -120,7 +122,8 @@ make verify-package
 
 | Repo | Role |
 |------|------|
-| [helix_3d](https://github.com/djmsqrvve/helix_3d) | Viewer + engine source (Rust/Bevy 0.18) |
+| [helix-viewer-wgpu](https://github.com/DJ-Game-Studios/helix-viewer-wgpu) | Viewer source (Rust, wgpu, winit) |
+| [helix_3d](https://github.com/DJ-Game-Studios/helix_3d) | Flagship runtime and owner of the viewer's declared `helix-water` integration |
 | [helix-tools](https://github.com/djmsqrvve/helix-tools) | Asset pipeline — builds `.helix` packages |
 | [dj-engine-releases](https://github.com/djmsqrvve/dj-engine-releases) | DJ-Engine binaries + `.djpak` games |
 | [helix_standardization](https://github.com/djmsqrvve/helix_standardization) | Canonical TOML game data |
