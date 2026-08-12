@@ -1,142 +1,69 @@
-# Helix 3D Viewer — Releases
+# Helix 3D Viewer
 
-Public distribution repository for **Helix 3D Viewer** binaries and `.helix` sample packages.
+A standalone desktop viewer for `.helix` character packages from the Helix 3D asset pipeline.
 
-## Downloads
+Use it to inspect assembled characters, gear, textures, skeletons, and animations without opening the full game engine.
 
-Check the [Releases](https://github.com/djmsqrvve/helix-viewer-releases/releases) page for the latest builds.
+## Download
 
-| Artifact | Platform | Description |
-|----------|----------|-------------|
-| `helix-viewer` | Linux x86_64 | Standalone 3D model viewer |
-| `helix-viewer.exe` | Windows x86_64 | Standalone 3D model viewer |
-| `drow.helix` | Cross-platform | Sample hero package (Drow Ranger — 8 gear parts, 76 animations) |
-| `axe.helix` | Cross-platform | Sample hero package (Axe — 5 gear parts, 75 animations) |
+Download the latest stable build and a sample character from [Releases](https://github.com/DJ-Game-Studios/helix-viewer-releases/releases/latest).
 
-## Quick Start
-
-### Linux
-
-```bash
-# Download viewer + a sample package
-chmod +x helix-viewer
-./helix-viewer drow.helix
-```
+The current stable release provides a standalone Windows executable. Sample `.helix` packages are available alongside it.
 
 ### Windows
 
-```
-helix-viewer.exe drow.helix
+1. Download `helix-viewer-standalone.exe` and a sample `.helix` file.
+2. Place them in the same folder.
+3. Drag the package onto the viewer, or launch it from a terminal:
+
+```text
+helix-viewer-standalone.exe drow_v2.helix
 ```
 
-### Controls
+## Controls
 
 | Input | Action |
-|-------|--------|
-| Right-click drag | Orbit camera |
-| Middle-click drag | Pan camera |
-| Scroll wheel | Zoom |
-| `F` / `Home` | Frame model (reset view) |
-| `W` | Toggle wireframe |
-| `F5` | Screenshot |
-| `1-5` | Camera snap views (Front/Back/Left/Right/Top) |
+| --- | --- |
+| Right-drag | Orbit camera |
+| Middle-drag | Pan camera |
+| Scroll | Zoom |
+| <kbd>F</kbd> / <kbd>Home</kbd> | Frame the model |
+| <kbd>W</kbd> | Toggle wireframe |
+| <kbd>F5</kbd> | Save a screenshot |
+| <kbd>1</kbd>–<kbd>5</kbd> | Snap to standard camera views |
 
-## What is a .helix File?
+## The `.helix` format
 
-A `.helix` file is a single-file hero package containing everything needed to view a 3D character:
+A `.helix` file is a portable character package containing:
 
-- **Base model** (GLTF + binary geometry)
-- **Gear parts** (armor, weapons, cape, etc.) with skeleton attachment data
-- **Textures** (color, normal, specular maps)
-- **Animations** (idle, run, attack, death, etc.)
-- **manifest.json** — metadata describing all contents
+- a base GLTF model and geometry;
+- attachable gear parts;
+- color, normal, and specular textures;
+- animation clips;
+- skeleton metadata;
+- a `manifest.json` describing how everything fits together.
 
-The viewer reads `manifest.json` to know how to load the model, attach gear, apply scale, and play animations.
+The viewer reads the manifest to assemble the character, attach gear to the correct bones, apply scale, and expose animations.
 
-See [HELIX_FORMAT_SPEC.md](HELIX_FORMAT_SPEC.md) for the full format specification.
+Read the complete [Helix format specification](HELIX_FORMAT_SPEC.md).
 
-## Building the Viewer from Source
+## Blender workflow
 
-The viewer lives in the
-[helix-viewer-wgpu](https://github.com/DJ-Game-Studios/helix-viewer-wgpu) repository:
+[Helix Blender Tools](https://github.com/DJ-Game-Studios/helix-blender-addon) imports `.helix` packages directly into Blender for inspection and editing.
 
-```bash
-cd helix-viewer-wgpu
-cargo build --release -p helix-viewer-wgpu --features egui
+1. Download the addon from its [latest release](https://github.com/DJ-Game-Studios/helix-blender-addon/releases/latest).
+2. In Blender, choose **Edit → Preferences → Add-ons → Install from Disk**.
+3. Enable **Helix Blender Tools**.
+4. Use **File → Import → Helix Package (.helix)**.
 
-# Binary at target/release/helix-viewer-wgpu
-```
+## Repository scope
 
-### Cross-compile for Windows (from Linux)
+This repository contains public viewer downloads, sample packages, and the format specification. The game runtime and asset-production pipeline remain private while under active development.
 
-```bash
-# Prerequisites
-sudo apt-get install -y gcc-mingw-w64-x86-64
-rustup target add x86_64-pc-windows-gnu
+## Feedback
 
-# Build
-cargo build --release -p helix-viewer-wgpu --features egui \
-  --target x86_64-pc-windows-gnu
-```
-
-## Building .helix Packages
-
-Hero packages are built from the [helix-tools](https://github.com/djmsqrvve/helix-tools) pipeline:
-
-```bash
-cd helix-tools
-
-# Single hero
-make package HERO=drow
-
-# All 124 heroes
-./scripts/batch_package.sh --all
-
-# Verify packages
-make verify-package
-```
-
-## .helix Format — Quick Reference
-
-```json
-{
-  "format_version": 1,
-  "hero": "drow",
-  "display_name": "Drow",
-  "base_model": "drow_base.gltf",
-  "model_scale_pct": 100,
-  "parts": [
-    {"file": "drow_weapon.gltf", "id": "weapon", "attach_bone": "Bow1_0"}
-  ],
-  "engine_animations": [
-    {"name": "idle", "index": 50, "loop_type": "loop"},
-    {"name": "run", "index": 49, "loop_type": "loop"}
-  ],
-  "skeleton": {"joint_count": 82},
-  "animation_count": 76,
-  "texture_count": 46
-}
-```
-
-## Related Repositories
-
-| Repo | Role |
-|------|------|
-| [helix-viewer-wgpu](https://github.com/DJ-Game-Studios/helix-viewer-wgpu) | Viewer source (Rust, wgpu, winit) |
-| [helix_3d](https://github.com/DJ-Game-Studios/helix_3d) | Flagship runtime and owner of the viewer's declared `helix-water` integration |
-| [helix-tools](https://github.com/djmsqrvve/helix-tools) | Asset pipeline — builds `.helix` packages |
-| [dj-engine-releases](https://github.com/djmsqrvve/dj-engine-releases) | DJ-Engine binaries + `.djpak` games |
-| [helix_standardization](https://github.com/djmsqrvve/helix_standardization) | Canonical TOML game data |
-| [Helix2000](https://github.com/djmsqrvve/Helix2000) | 2D MMORPG (React/Phaser/Colyseus) |
+Report viewer or package problems through [GitHub Issues](https://github.com/DJ-Game-Studios/helix-viewer-releases/issues). Include the release tag, package filename, operating system, reproduction steps, and a screenshot when useful.
 
 ## License
 
-MIT License — see [LICENSE](LICENSE).
-
-## Blender Addon
-
-To open `.helix` packages in Blender, install the [Helix Blender Tools](https://github.com/djmsqrvve/helix-blender-addon) addon:
-
-1. Download from [v0.3.0 release](https://github.com/djmsqrvve/helix-blender-addon/releases/tag/v0.3.0)
-2. Install in Blender via Edit > Preferences > Add-ons > Install from Disk
-3. File > Import > Helix Package (.helix)
+[MIT](LICENSE)
