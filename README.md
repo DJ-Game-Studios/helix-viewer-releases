@@ -1,12 +1,14 @@
-# Helix 3D Viewer
+# Helix 3D Viewer — Legacy Release Channel
 
 A standalone desktop viewer for `.helix` character packages from the Helix 3D asset pipeline.
 
 Use it to inspect assembled characters, gear, textures, skeletons, and animations without opening the full game engine.
 
+> **Project status:** This repository preserves the viewer-era public builds and format documentation. It is a maintained download archive, not the current Helix MMORPG runtime or its source repository.
+
 ## Download
 
-Download the latest stable build and a sample character from [Releases](https://github.com/DJ-Game-Studios/helix-viewer-releases/releases/latest).
+Download the recommended stable viewer build and a sample character from [v0.2.2](https://github.com/DJ-Game-Studios/helix-viewer-releases/releases/tag/v0.2.2).
 
 The current stable release provides a standalone Windows executable. Sample `.helix` packages are available alongside it.
 
